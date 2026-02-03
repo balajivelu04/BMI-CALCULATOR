@@ -1,31 +1,34 @@
 package com.leo;
 
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class App {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try {
+            String weightStr = JOptionPane.showInputDialog(null, "Enter weight in kilograms:", "BMI Calculator", JOptionPane.QUESTION_MESSAGE);
+            if (weightStr == null) return; // Cancelled
+            double weight = Double.parseDouble(weightStr);
 
-        System.out.print("Enter weight in kilograms: ");
-        double weight = sc.nextDouble();
+            String heightStr = JOptionPane.showInputDialog(null, "Enter height in meters:", "BMI Calculator", JOptionPane.QUESTION_MESSAGE);
+            if (heightStr == null) return; // Cancelled
+            double height = Double.parseDouble(heightStr);
 
-        System.out.print("Enter height in meters: ");
-        double height = sc.nextDouble();
+            double bmi = weight / (height * height);
 
-        double bmi = weight / (height * height);
+            String status;
+            if (bmi < 18.5) {
+                status = "Underweight";
+            } else if (bmi < 25) {
+                status = "Normal";
+            } else if (bmi < 30) {
+                status = "Overweight";
+            } else {
+                status = "Obese";
+            }
 
-        System.out.println("BMI: " + bmi);
-
-        if (bmi < 18.5) {
-            System.out.println("Health status: Underweight");
-        } else if (bmi < 25) {
-            System.out.println("Health status: Normal");
-        } else if (bmi < 30) {
-            System.out.println("Health status: Overweight");
-        } else {
-            System.out.println("Health status: Obese");
+            JOptionPane.showMessageDialog(null, "BMI: " + String.format("%.2f", bmi) + "\nHealth status: " + status, "BMI Result", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        sc.close();
     }
 }
